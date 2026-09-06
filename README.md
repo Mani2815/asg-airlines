@@ -66,7 +66,7 @@ streamlit run streamlit/app.py
 ```
 
 **Deployment Link:** 
-https://mani-s01-pg-st-1-app-26092026.streamlit.app/
+https://asg-airlines.streamlit.app
 
 ## Repository Structure
 ```

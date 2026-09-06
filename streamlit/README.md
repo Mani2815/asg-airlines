@@ -40,4 +40,4 @@ Ensure the curated files exist in `../data/processed/curated/` before running th
    ```
 
 ## Deployment Link
-Find deployment link here: https://mani-s01-pg-st-1-app-26092026.streamlit.app/
+Find deployment link here: https://asg-airlines.streamlit.app

@@ -1,23 +1,41 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import os
+from pathlib import Path
 
 st.set_page_config(page_title="ASG Airlines — Analytics", layout="wide")
 
 # --- DATA LOADING ---
 @st.cache_data
 def load_data():
-    base_dir = "../data/processed/curated/"
-    if not os.path.exists(base_dir):
-        return None
+    REPO_ROOT = Path(__file__).resolve().parent.parent
+    BASE_DIR = REPO_ROOT / "data" / "processed" / "curated"
+    
+    if not BASE_DIR.exists():
+        # Fallback error for when relative path extraction fails if repo root is bizarre
+        err_path = "data/processed/curated/"
+        st.error(f"Curated data directory not found: {err_path}")
+        st.stop()
+        
+    expected_files = [
+        "fact_flights.csv",
+        "fact_bookings.csv",
+        "fact_payments.csv",
+        "dim_airline.csv",
+        "dim_route.csv"
+    ]
+    
+    for f in expected_files:
+        if not (BASE_DIR / f).exists():
+            st.error(f"Required curated file missing: {f}")
+            st.stop()
     
     try:
-        flights = pd.read_csv(f"{base_dir}fact_flights.csv")
-        bookings = pd.read_csv(f"{base_dir}fact_bookings.csv")
-        payments = pd.read_csv(f"{base_dir}fact_payments.csv")
-        airlines = pd.read_csv(f"{base_dir}dim_airline.csv")
-        routes = pd.read_csv(f"{base_dir}dim_route.csv")
+        flights = pd.read_csv(BASE_DIR / "fact_flights.csv")
+        bookings = pd.read_csv(BASE_DIR / "fact_bookings.csv")
+        payments = pd.read_csv(BASE_DIR / "fact_payments.csv")
+        airlines = pd.read_csv(BASE_DIR / "dim_airline.csv")
+        routes = pd.read_csv(BASE_DIR / "dim_route.csv")
         
         # Merge dimensions for easy filtering
         flights = flights.merge(airlines, on="airline_key", how="left")
@@ -27,14 +45,11 @@ def load_data():
         bookings = bookings.merge(routes, on="route_key", how="left")
         
         return flights, bookings, payments
-    except Exception:
-        return None
+    except Exception as e:
+        st.error(f"Failed to read CSV files: {str(e)}")
+        st.stop()
 
 data = load_data()
-
-if data is None:
-    st.error("Curated data not found. Run the ASG Airlines pipeline first.")
-    st.stop()
 
 flights_df, bookings_df, payments_df = data
 
