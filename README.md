@@ -68,6 +68,8 @@ streamlit run streamlit/app.py
 **Deployment Link:** 
 https://asg-airlines.streamlit.app
 
+![Streamlit Dashboard](streamlit/streamlit_dashboard.png)
+
 ## Repository Structure
 ```
 ├── README.md
