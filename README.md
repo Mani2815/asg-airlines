@@ -18,12 +18,12 @@ A data engineering pipeline that ingests operational data, applies traceable dat
 
 ## Tech Stack
 - Python (Pandas dataframes)
-- SQL (Serving layer validation)
+- SQL (Analytical and data-quality queries)
 - Power BI (DAX / Visualization)
 
 ## Data Quality
 - **Flights**: Handled exact duplicates (15 removed), quarantined conflicting IDs (2 records), derived missing airlines via prefix mapping (67 derived), safely parsed overnight flights (1 adjusted).
-- **Passengers**: Resolved 39 redundant duplicate rows (retained first occurrence safely as age/gender were identical). Dropped all PII securely.
+- **Passengers**: Resolved 39 redundant duplicate rows (retained first occurrence safely as age/gender were identical). Sensitive passenger fields were hashed, masked, or excluded from the final analytical layer based on their analytical necessity.
 - **Bookings & Payments**: Missing and invalid booking statuses were retained as explicit categories, while invalid or missing payment amounts were handled separately during financial data preparation.
 
 ## Pipeline Flow
