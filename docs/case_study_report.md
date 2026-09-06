@@ -4,14 +4,14 @@
 This project implements an end-to-end data pipeline and business intelligence solution for ASG Airlines. Raw operational data (flights, bookings, passengers, payments) was ingested, cleaned, and transformed into a strict physical Star Schema. The pipeline securely protects Personally Identifiable Information (PII), resolves data conflicts, flags statistical anomalies, and serves the data through curated Parquet/CSV files to Power BI for operational reporting.
 
 ## 2. Business Problem
-ASG Airlines experienced rapid growth, leading to siloed, inconsistent, and dirty operational data. Business analysts could not generate accurate Key Performance Indicators (KPIs) due to missing airlines, duplicated passenger profiles, mismatched timestamps, and unlinked payment transactions.
+The provided ASG Airlines data contained inconsistencies across flights, bookings, passengers, and payments that affected reliable KPI reporting. Business analysts could not generate accurate Key Performance Indicators (KPIs) due to missing airlines, duplicated passenger profiles, mismatched timestamps, and unlinked payment transactions.
 
 ## 3. Objectives
 - Ingest and clean the provided Excel dataset.
 - Implement strict, traceable data quality rules.
 - Calculate flight durations and flag statistical anomalies.
 - Protect passenger PII safely.
-- Design a scalable cloud architecture (Azure).
+- Design a scalable analytical architecture with a clear path for future cloud deployment.
 - Build a Power BI dashboard reporting 4 mandatory KPIs.
 
 ## 4. Source Data Overview
@@ -48,7 +48,7 @@ A Multi-Fact Analytical Model with Shared Physical Dimensions:
 The pipeline reads the raw `.xlsx` file, preserving the original data before processing.
 
 ## 10. Python Data Processing
-The notebook `notebooks/ASG_Airlines_Data_Engineering.ipynb` (or `src/pipeline.py`) handles the transformation. It utilizes Pandas dataframes to execute deterministic rules.
+The notebook `notebooks/ASG_Airlines_Data_Engineering.ipynb` handles the transformation. It utilizes Pandas dataframes to execute deterministic rules.
 
 ## 11. Data Cleaning Rules
 - **Exact Duplicates (F-01)**: Retained the first occurrence, dropped the rest (15 flights removed).
@@ -78,7 +78,7 @@ Every modified row was logged to `data_quality_audit.csv` with `record_id, rule_
 Converted the virtual dimensions into physical tables (`dim_route`, `dim_airline`). This prevents many-to-many ambiguity and strictly separates flight volume from booking demand.
 
 ## 18. SQL/KPI Layer
-Built using local SQL queries for validation. Reconciled 100% with the curated DataFrames.
+SQL query definitions are included for analytical validation and future cloud serving. The primary validated results in this submission are produced by the local Python/Pandas pipeline.
 - Total Flights: 1003
 - Total Bookings: 998
 - Flight Anomalies: 0
@@ -98,7 +98,7 @@ Power BI also includes a separate Data Model / Relationship view used to documen
 - **Architectural**: The Pandas-based logic can be migrated to PySpark for horizontal scaling across millions of records in a cloud environment like Databricks.
 
 ## 21. Security & Access Control
-- Raw PII is protected and stored securely in a separate location.
+- Raw PII remains in the supplied source workbook and is not included in the public repository. During processing, sensitive fields are hashed, masked, or excluded from the final BI-safe analytical layer.
 - No connection strings or secrets exist in the repository code.
 
 ## 22. Assumptions

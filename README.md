@@ -82,8 +82,6 @@ The original source workbook is excluded from the public repository because it c
 
 3. Run:
    `notebooks/ASG_Airlines_Data_Engineering.ipynb`
-   or
-   `src/pipeline.py`
 
 4. Outputs are written to:
    `data/processed/curated/`
