@@ -76,8 +76,7 @@ https://asg-airlines.streamlit.app
 ├── data/
 │   ├── raw/
 │   └── processed/
-│       ├── curated/       (Analytical Star Schema outputs)
-│       └── logs/          (Audit trails)
+│       └── curated/       (Analytical Star Schema outputs)
 ├── notebooks/
 │   └── ASG_Airlines_Data_Engineering.ipynb  (Core Python Pipeline)
 ├── sql/                   (Semantic Views)

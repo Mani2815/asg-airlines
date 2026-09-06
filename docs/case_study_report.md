@@ -72,7 +72,7 @@ Sensitive fields are protected/masked/hashed in an in-memory intermediate datafr
 Dynamically quarantined 2 orphan bookings and 2 orphan payments caused by the upstream quarantine of the conflicting `6F250` flight.
 
 ## 16. Data Quality & Audit Logging
-Every modified row was logged to `data_quality_audit.csv` with `record_id, rule_id, issue, action`.
+Data-quality audit records and runtime logs are generated during pipeline execution and are excluded from the public repository. Each logged entry includes `record_id, rule_id, issue, action`.
 
 ## 17. Analytical Model
 Converted the virtual dimensions into physical tables (`dim_route`, `dim_airline`). This prevents many-to-many ambiguity and strictly separates flight volume from booking demand.
@@ -94,7 +94,7 @@ Power BI report with 5 analytical pages and a dedicated data-model/relationship 
 Power BI also includes a separate Data Model / Relationship view used to document and verify the analytical model.
 
 ## 20. Scalability & Performance
-- **Tested**: Sample dataset (<5000 rows) executes in <5 seconds locally.
+- **Tested**: The supplied dataset is small and the current Pandas implementation is intended for local case-study execution.
 - **Architectural**: The Pandas-based logic can be migrated to PySpark for horizontal scaling across millions of records in a cloud environment like Databricks.
 
 ## 21. Security & Access Control
@@ -107,7 +107,7 @@ Power BI also includes a separate Data Model / Relationship view used to documen
 
 ## 23. Business Findings
 - IndiGo (271 flights) and Air India (255) dominate the operational volume.
-- Cancellation rate rests at ~31.36%.
+
 - 100% of flight durations currently fall within normal statistical bounds.
 
 ## 24. Limitations
@@ -119,7 +119,7 @@ Power BI also includes a separate Data Model / Relationship view used to documen
 - Implement CI/CD for the data pipeline.
 
 ## 26. Conclusion
-The ASG Airlines pipeline successfully modernized the data ecosystem, implementing rigorous quality controls and a BI-safe Star Schema ready for enterprise decision-making.
+The ASG Airlines pipeline implements traceable data-quality rules and produces a BI-safe Star Schema suitable for operational reporting.
 
 ---
 

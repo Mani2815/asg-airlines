@@ -119,7 +119,7 @@ k2.metric("Total Bookings", f"{total_bookings:,}")
 k3.metric("Avg Duration", f"{avg_duration:.1f} m")
 k4.metric("Overnight", int(overnight_count))
 k5.metric("Anomalies", int(anomaly_count))
-k6.metric("Total Paid", f"₹{total_paid:,.0f}")
+k6.metric("Total Paid Amount", f"{total_paid:,.0f}")
 
 st.markdown("---")
 
