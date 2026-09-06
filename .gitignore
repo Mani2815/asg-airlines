@@ -22,3 +22,4 @@ Thumbs.db
 data/processed/logs/
 data/processed/pipeline.log
 data/processed/audit_log.csv
+data/raw/UseCase - Airlines.xlsx

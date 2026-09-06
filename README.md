@@ -1,20 +1,20 @@
 # ASG Airlines — End-to-End Data Engineering
 
 ## Problem
-ASG Airlines faced operational data inconsistencies due to rapid growth. Business teams could not rely on key KPIs due to missing airlines, duplicate passenger profiles, mismatched timestamps, and unlinked financial transactions.
+ASG Airlines faced operational data inconsistencies across booking, scheduling, and airport data sources. These inconsistencies affected KPI calculation and operational reporting.
 
 ## Solution
-A robust data engineering pipeline that ingests raw operational data, strictly applies traceable data quality rules, hashes/masks passenger PII, and outputs a clean physical Star Schema for Power BI reporting.
+A data engineering pipeline that ingests operational data, applies traceable data quality rules, hashes/masks passenger PII, and outputs a physical Star Schema for Power BI reporting.
 
 ## Architecture (Implemented locally, cloud-ready)
 - **Processing**: Python (Pandas)
 - **Storage**: Local Parquet & CSV files
-- **Serving**: SQL (Data validation and semantic views)
-- **Reporting**: Power BI
+- **Analytical Layer**: SQL scripts for validation and analytical queries
+- **Reporting**: Power BI using the curated analytical outputs
 
 *Note: The pipeline was designed to be easily migrated to Azure (ADF, Databricks, Synapse) for future cloud deployment.*
 
-[View Architecture Diagram](diagrams/architecture.md)
+![Architecture Diagram](diagrams/architecture.png)
 
 ## Tech Stack
 - Python (Pandas dataframes)
@@ -24,13 +24,13 @@ A robust data engineering pipeline that ingests raw operational data, strictly a
 ## Data Quality
 - **Flights**: Handled exact duplicates (15 removed), quarantined conflicting IDs (2 records), derived missing airlines via prefix mapping (67 derived), safely parsed overnight flights (1 adjusted).
 - **Passengers**: Resolved 39 redundant duplicate rows (retained first occurrence safely as age/gender were identical). Dropped all PII securely.
-- **Payments & Bookings**: NULL and INVALID statuses preserved and flagged accurately.
+- **Bookings & Payments**: Missing and invalid booking statuses were retained as explicit categories, while invalid or missing payment amounts were handled separately during financial data preparation.
 
 ## Pipeline Flow
-[View Data Flow Diagram](diagrams/data_flow.md)
+![Data Flow Diagram](diagrams/data_flow.png)
 
 ## Analytical Model
-[View Data Model Diagram](diagrams/data_model.md)
+![Data Model Diagram](diagrams/data_model.png)
 
 ## KPIs
 - Average Flight Duration
@@ -42,7 +42,17 @@ A robust data engineering pipeline that ingests raw operational data, strictly a
 - Flight Anomalies (Statistical Outliers via IQR)
 
 ## Power BI
-The Power BI model correctly filters operational volumes separately from passenger demand across 4 comprehensive pages. 
+The Power BI model correctly filters operational volumes separately from passenger demand.
+Power BI report with 5 analytical pages and a dedicated data-model/relationship view.
+
+- [Operations Overview](powerbi/screenshots/operations_overview.png)
+- [Duration Analysis](powerbi/screenshots/duration_analysis.png)
+- [Route Performance](powerbi/screenshots/route_performance.png)
+- [Airline Trends & Data Quality](powerbi/screenshots/airline_quality.png)
+- [Delay & Anomaly Insights](powerbi/screenshots/delay_anomaly_insights.png)
+
+Power BI also includes a separate [Data Model / Relationship view](powerbi/screenshots/model.png) used to document and verify the analytical model.
+
 [Power BI Dashboard File](powerbi/ASG_Airlines_Operations.pbix)
 
 ## Repository Structure
@@ -62,9 +72,21 @@ The Power BI model correctly filters operational volumes separately from passeng
 ```
 
 ## How to Run
-1. Run the local python pipeline by executing `notebooks/ASG_Airlines_Data_Engineering.ipynb` or `src/pipeline.py` (ensure you install `requirements.txt`).
-2. The outputs will be saved in `data/processed/curated/`.
-3. Open `powerbi/ASG_Airlines_Operations.pbix` to view the dashboards.
+The original source workbook is excluded from the public repository because it contains personally identifiable information (PII). Place the provided workbook at `data/raw/UseCase - Airlines.xlsx` locally before running the pipeline.
+
+1. Place the supplied source workbook at:
+   `data/raw/UseCase - Airlines.xlsx`
+
+2. Install dependencies:
+   `pip install -r requirements.txt`
+
+3. Run:
+   `notebooks/ASG_Airlines_Data_Engineering.ipynb`
+   or
+   `src/pipeline.py`
+
+4. Outputs are written to:
+   `data/processed/curated/`
 
 ## Results
 - Total Flights: 1,003

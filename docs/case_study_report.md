@@ -84,11 +84,14 @@ Built using local SQL queries for validation. Reconciled 100% with the curated D
 - Flight Anomalies: 0
 
 ## 19. Power BI Report
-Contains 4 pages:
+Power BI report with 5 analytical pages and a dedicated data-model/relationship view.
 1. **Operations Overview**: High-level KPIs and Airline volume.
 2. **Duration Analysis**: Tracking average durations and highlighting statistical outliers.
 3. **Route Performance**: Dual-axis comparison of Flight Volume vs Passenger Demand.
-4. **Airline & Data Quality**: Original vs Derived airline splits and `UNKNOWN`/`INVALID` tracking.
+4. **Airline Trends & Data Quality**: Original vs Derived airline splits and `UNKNOWN`/`INVALID` tracking.
+5. **Delay & Anomaly Insights**: Statistical duration outliers using IQR method.
+
+Power BI also includes a separate Data Model / Relationship view used to document and verify the analytical model.
 
 ## 20. Scalability & Performance
 - **Tested**: Sample dataset (<5000 rows) executes in <5 seconds locally.
