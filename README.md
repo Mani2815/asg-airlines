@@ -65,6 +65,9 @@ An additional interactive Streamlit application is included for better visulaiza
 streamlit run streamlit/app.py
 ```
 
+**Deployment Link:** 
+https://mani-s01-pg-st-1-app-26092026.streamlit.app/
+
 ## Repository Structure
 ```
 ├── README.md
